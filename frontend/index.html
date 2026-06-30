@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时令特色产品市场</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg: #f3f7f1;
+            --bg-soft: #eef5ec;
+            --surface: #ffffff;
+            --surface-alt: #fbf8ef;
+            --surface-hover: #f7fbf5;
+            --border: #dfe8dc;
+            --border-strong: #bed0b8;
+            --border-hover: #93b58a;
+            --text: #1f2f28;
+            --text-secondary: #5c6f63;
+            --text-tertiary: #879589;
+            --text-inverse: #ffffff;
+            --accent: #3f7d4f;
+            --accent-hover: #326540;
+            --accent-soft: #e4f1df;
+            --accent-blue: #386c8f;
+            --accent-clay: #b86f42;
+            --accent-red: #b5473f;
+            --text-rgb: 31, 47, 40;
+            --bg-rgb: 243, 247, 241;
+            --surface-rgb: 255, 255, 255;
+            --accent-rgb: 63, 125, 79;
+            --blue-rgb: 56, 108, 143;
+            --clay-rgb: 184, 111, 66;
+            --red-rgb: 181, 71, 63;
+            --success: #3f7d4f;
+            --error: #b5473f;
+            --warning: #b86f42;
+            --info: #386c8f;
+            --shadow-card: 0 10px 24px rgba(var(--text-rgb), .06);
+            --shadow-soft: 0 10px 26px rgba(var(--text-rgb), .1);
+            --shadow-lift: 0 18px 42px rgba(var(--text-rgb), .12);
+            --shadow-nav: 0 10px 30px rgba(var(--text-rgb), .14);
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(180deg, rgba(var(--accent-rgb), .08), transparent 320px),
+                radial-gradient(circle at 12% 8%, rgba(var(--clay-rgb), .11), transparent 260px),
+                var(--bg);
+            color: var(--text);
+            font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+            font-size: .94rem;
+            line-height: 1.75;
+            letter-spacing: .02em;
+            overflow-x: hidden;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-clay), var(--accent-blue));
+            transform: scaleX(0);
+            transform-origin: left;
+            z-index: 1100;
+        }
+
+        .navbar {
+            background: rgba(var(--text-rgb), .94);
+            border-bottom: 1px solid rgba(var(--surface-rgb), .12);
+            backdrop-filter: blur(12px);
+            transition: box-shadow .24s ease, background-color .24s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-nav);
+        }
+
+        .navbar-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            font-weight: 800;
+            font-size: 1.16rem;
+            letter-spacing: 0;
+            cursor: pointer;
+        }
+
+        .navbar-brand i {
+            color: var(--accent-soft);
+        }
+
+        .nav-link {
+            cursor: pointer;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: color .18s ease, background-color .18s ease;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(var(--surface-rgb), .78);
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link:focus {
+            color: var(--text-inverse);
+            background: rgba(var(--surface-rgb), .08);
+        }
+
+        .app-shell {
+            max-width: 1220px;
+        }
+
+        main.app-shell {
+            padding-inline: 24px;
+        }
+
+        .view-title {
+            color: var(--text);
+            font-size: 1.55rem;
+            font-weight: 800;
+            line-height: 1.35;
+            letter-spacing: 0;
+            margin-bottom: 1rem;
+        }
+
+        .section-kicker {
+            color: var(--accent);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .market-hero {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+            gap: 22px;
+            align-items: stretch;
+            margin-bottom: 22px;
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, var(--surface), var(--surface-alt));
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .market-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(var(--accent-rgb), .07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--accent-rgb), .06) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: linear-gradient(90deg, black, transparent 70%);
+            pointer-events: none;
+        }
+
+        .market-hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .market-hero h1 {
+            max-width: 720px;
+            margin: .3rem 0 .65rem;
+            color: var(--text);
+            font-size: clamp(1.85rem, 4vw, 3.1rem);
+            font-weight: 800;
+            line-height: 1.18;
+            letter-spacing: 0;
+        }
+
+        .market-hero p {
+            max-width: 720px;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .metric-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .metric {
+            min-height: 76px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: rgba(var(--surface-rgb), .78);
+        }
+
+        .metric strong {
+            display: block;
+            color: var(--text);
+            font-size: 1.24rem;
+            line-height: 1.2;
+            letter-spacing: 0;
+        }
+
+        .metric span {
+            color: var(--text-tertiary);
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+        .hero-media {
+            min-height: 260px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .toolbar {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            background: rgba(var(--surface-rgb), .9);
+            box-shadow: var(--shadow-card);
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+            font-size: .8rem;
+            font-weight: 800;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 42px;
+            border-color: var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            background-color: var(--surface);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 .22rem rgba(var(--accent-rgb), .14);
+        }
+
+        .btn {
+            min-height: 40px;
+            border-radius: var(--radius);
+            font-weight: 800;
+            letter-spacing: .01em;
+            transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease, color .18s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(.98);
+            box-shadow: none;
+        }
+
+        .btn:focus-visible,
+        .nav-link:focus-visible,
+        a:focus-visible {
+            outline: 3px solid rgba(var(--accent-rgb), .22);
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-primary,
+        .btn-success {
+            --bs-btn-bg: var(--accent);
+            --bs-btn-border-color: var(--accent);
+            --bs-btn-hover-bg: var(--accent-hover);
+            --bs-btn-hover-border-color: var(--accent-hover);
+            --bs-btn-active-bg: var(--accent-hover);
+            --bs-btn-active-border-color: var(--accent-hover);
+        }
+
+        .btn-outline-primary,
+        .btn-outline-success {
+            --bs-btn-color: var(--accent);
+            --bs-btn-border-color: var(--border-strong);
+            --bs-btn-hover-bg: var(--accent);
+            --bs-btn-hover-border-color: var(--accent);
+            --bs-btn-active-bg: var(--accent-hover);
+            --bs-btn-active-border-color: var(--accent-hover);
+        }
+
+        .btn-outline-secondary {
+            --bs-btn-color: var(--text-secondary);
+            --bs-btn-border-color: var(--border-strong);
+            --bs-btn-hover-bg: var(--surface-hover);
+            --bs-btn-hover-border-color: var(--border-hover);
+            --bs-btn-hover-color: var(--text);
+        }
+
+        .btn-outline-danger {
+            --bs-btn-color: var(--accent-red);
+            --bs-btn-border-color: rgba(var(--red-rgb), .42);
+            --bs-btn-hover-bg: var(--accent-red);
+            --bs-btn-hover-border-color: var(--accent-red);
+        }
+
+        .btn-danger {
+            --bs-btn-bg: var(--accent-red);
+            --bs-btn-border-color: var(--accent-red);
+            --bs-btn-hover-bg: var(--accent-red);
+            --bs-btn-hover-border-color: var(--accent-red);
+        }
+
+        .btn-outline-warning {
+            --bs-btn-color: var(--accent-clay);
+            --bs-btn-border-color: rgba(var(--clay-rgb), .44);
+            --bs-btn-hover-bg: var(--accent-clay);
+            --bs-btn-hover-border-color: var(--accent-clay);
+        }
+
+        .btn-warning {
+            --bs-btn-color: var(--text-inverse);
+            --bs-btn-bg: var(--accent-clay);
+            --bs-btn-border-color: var(--accent-clay);
+            --bs-btn-hover-bg: var(--accent-clay);
+            --bs-btn-hover-border-color: var(--accent-clay);
+        }
+
+        .product-card,
+        .data-card {
+            height: 100%;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow-card);
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+
+        .product-card:hover,
+        .data-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-lift);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+            background: var(--bg-soft);
+            transition: transform .55s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.045);
+        }
+
+        .product-card h2,
+        .data-card h2,
+        .modal-title {
+            letter-spacing: 0;
+        }
+
+        .product-card .p-3,
+        .data-card.p-3 {
+            padding: 18px !important;
+        }
+
+        .price {
+            color: var(--accent-red);
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+
+        .muted {
+            color: var(--text-secondary);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: pageEnter .28s cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        @keyframes pageEnter {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-only {
+            display: none;
+        }
+
+        .icon-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .language-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            min-width: 4.25rem;
+            min-height: 2.25rem;
+            border: 1px solid rgba(var(--surface-rgb), .24);
+            border-radius: var(--radius);
+            color: rgba(var(--surface-rgb), .9);
+            background: rgba(var(--surface-rgb), .08);
+            font-weight: 800;
+            line-height: 1;
+            transition: color .18s ease, background-color .18s ease, border-color .18s ease;
+        }
+
+        .language-toggle:hover,
+        .language-toggle:focus {
+            color: var(--text-inverse);
+            background: rgba(var(--surface-rgb), .15);
+            border-color: rgba(var(--surface-rgb), .4);
+        }
+
+        .badge {
+            border-radius: 999px;
+            padding: .4rem .58rem;
+            font-weight: 800;
+        }
+
+        .text-bg-success,
+        .text-bg-primary {
+            color: var(--text-inverse) !important;
+            background-color: var(--accent) !important;
+        }
+
+        .text-bg-info {
+            color: var(--text-inverse) !important;
+            background-color: var(--accent-blue) !important;
+        }
+
+        .text-bg-warning {
+            color: var(--text-inverse) !important;
+            background-color: var(--accent-clay) !important;
+        }
+
+        .text-bg-danger {
+            color: var(--text-inverse) !important;
+            background-color: var(--accent-red) !important;
+        }
+
+        .text-bg-secondary,
+        .text-bg-dark,
+        .text-bg-light {
+            color: var(--text) !important;
+            background-color: var(--accent-soft) !important;
+        }
+
+        .table-responsive {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow-card);
+        }
+
+        .table {
+            margin-bottom: 0;
+            color: var(--text);
+        }
+
+        .table > :not(caption) > * > * {
+            padding: .9rem .95rem;
+            border-bottom-color: var(--border);
+        }
+
+        .table thead th {
+            color: var(--text-secondary);
+            background: var(--surface-alt);
+            font-size: .82rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .table-hover tbody tr:hover {
+            background: var(--surface-hover);
+        }
+
+        .empty-state {
+            border: 1px dashed var(--border-strong);
+            border-radius: var(--radius);
+            background: rgba(var(--surface-rgb), .85);
+            padding: 3.2rem 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            box-shadow: var(--shadow-card);
+        }
+
+        .empty-state i {
+            color: var(--accent);
+        }
+
+        .order-item {
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .complaint-item {
+            border-left: 4px solid var(--accent-clay);
+        }
+
+        .seller-item {
+            border-left: 4px solid var(--accent);
+        }
+
+        .modal-content {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lift);
+        }
+
+        .modal-header,
+        .modal-footer {
+            border-color: var(--border);
+            background: var(--surface-alt);
+        }
+
+        .alert {
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lift);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .55s cubic-bezier(.16, 1, .3, 1), transform .55s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 992px) {
+            .market-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-media {
+                min-height: 220px;
+            }
+
+            .language-toggle {
+                width: 100%;
+                justify-content: center;
+                margin-top: .35rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            main.app-shell {
+                padding-inline: 14px;
+            }
+
+            .market-hero {
+                padding: 16px;
+            }
+
+            .market-hero h1 {
+                font-size: 2rem;
+            }
+
+            .metric-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar .row {
+                row-gap: .75rem;
+            }
+
+            .table-action-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: .45rem;
+            }
+
+            .hero-actions,
+            .toolbar .d-flex {
+                width: 100%;
+            }
+
+            .hero-actions .btn,
+            .toolbar .btn {
+                flex: 1 1 auto;
+            }
+
+            .btn {
+                min-height: 44px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid app-shell">
+            <a class="navbar-brand" onclick="showPage('home')">
+                <i class="bi bi-shop-window me-1"></i> 时令特色产品市场
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" onclick="showPage('home')"><i class="bi bi-house"></i> 首页</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('publish')"><i class="bi bi-plus-circle"></i> 发布</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('my-products')"><i class="bi bi-box-seam"></i> 我的发布</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('cart')"><i class="bi bi-cart3"></i> 购物车 <span id="cartCount" class="badge text-bg-light">0</span></a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('orders')"><i class="bi bi-receipt"></i> 订单</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('favorites')"><i class="bi bi-heart"></i> 收藏</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('complaints')"><i class="bi bi-exclamation-triangle"></i> 投诉</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="showPage('seller')"><i class="bi bi-truck"></i> 卖家中心</a></li>
+                    <li class="nav-item auth-only admin-only"><a class="nav-link" onclick="showPage('admin')"><i class="bi bi-gear"></i> 管理后台</a></li>
+                </ul>
+                <ul class="navbar-nav align-items-lg-center">
+                    <li class="nav-item auth-only me-lg-2">
+                        <a class="nav-link" onclick="showRechargeModal()"><i class="bi bi-wallet2"></i> <span id="balanceAmount">0.00</span> <span id="balanceUnit">元</span></a>
+                    </li>
+                    <li class="nav-item guest-only"><a class="nav-link" onclick="showLoginModal()"><i class="bi bi-person"></i> 登录</a></li>
+                    <li class="nav-item guest-only"><a class="nav-link" onclick="showRegisterModal()"><i class="bi bi-person-plus"></i> 注册</a></li>
+                    <li class="nav-item auth-only"><a class="nav-link" onclick="logout()"><i class="bi bi-box-arrow-right"></i> 退出</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <button class="language-toggle" id="languageToggle" type="button" onclick="toggleLanguage()" title="切换到英文">
+                            <i class="bi bi-translate"></i>
+                            <span id="languageToggleText">EN</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid app-shell py-4">
+        <section id="page-home" class="page active">
+            <div class="market-hero reveal">
+                <div>
+                    <span class="section-kicker">Seasonal Marketplace</span>
+                    <h1>按季节上新，按订单流转的特色产品市场</h1>
+                    <p>浏览在售商品、管理购物车与订单，也可以作为卖家发布产品、发货并回复投诉。界面围绕实验系统的真实业务流程设计。</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="document.getElementById('searchInput').focus()"><i class="bi bi-search"></i> 搜索商品</button>
+                        <button class="btn btn-outline-primary auth-only" onclick="showPage('publish')"><i class="bi bi-plus-circle"></i> 发布商品</button>
+                        <button class="btn btn-outline-secondary auth-only" onclick="showPage('seller')"><i class="bi bi-truck"></i> 卖家中心</button>
+                    </div>
+                    <div class="metric-strip">
+                        <div class="metric">
+                            <strong id="marketProductCount">0</strong>
+                            <span>当前展示商品</span>
+                        </div>
+                        <div class="metric">
+                            <strong id="marketCategoryCount">0</strong>
+                            <span>商品分类</span>
+                        </div>
+                        <div class="metric">
+                            <strong id="marketUserState">访客</strong>
+                            <span>当前身份</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-media">
+                    <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=900&q=80" alt="时令蔬果市场">
+                </div>
+            </div>
+            <div class="toolbar mb-4">
+                <form onsubmit="searchProducts(event)">
+                    <div class="row align-items-end">
+                        <div class="col-md-5">
+                            <label class="form-label">搜索商品</label>
+                            <input class="form-control" id="searchInput" type="search" placeholder="输入名称或描述">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">分类筛选</label>
+                            <select class="form-select" id="categoryFilter" onchange="loadProducts()">
+                                <option value="">全部分类</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex gap-2">
+                            <button class="btn btn-primary flex-fill" type="submit"><i class="bi bi-search"></i> 搜索</button>
+                            <button class="btn btn-outline-secondary icon-btn" type="button" onclick="resetSearch()" title="重置"><i class="bi bi-arrow-counterclockwise"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="productsGrid" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3"></div>
+        </section>
+
+        <section id="page-publish" class="page">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3 view-title mb-0">发布商品</h1>
+                <button class="btn btn-outline-secondary" onclick="showPage('my-products')"><i class="bi bi-box-seam"></i> 我的发布</button>
+            </div>
+            <div class="data-card p-3">
+                <form id="publishForm" onsubmit="publishProduct(event)">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">商品名称 *</label>
+                                <input type="text" class="form-control" id="productName" maxlength="30" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">商品分类 *</label>
+                                <select class="form-select" id="productCategory" required></select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">价格 *</label>
+                                <input type="number" class="form-control" id="productPrice" min="0.01" step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">产地</label>
+                                <input type="text" class="form-control" id="productOrigin" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">销售期开始 *</label>
+                                <input type="date" class="form-control" id="productStartDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">销售期结束 *</label>
+                                <input type="date" class="form-control" id="productEndDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">商品描述</label>
+                                <textarea class="form-control" id="productDescription" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-upload"></i> 发布</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="page-my-products" class="page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h1 class="h3 view-title mb-0">我的发布</h1>
+                <button class="btn btn-success" onclick="showPage('publish')"><i class="bi bi-plus-circle"></i> 新商品</button>
+            </div>
+            <div id="myProductsList"></div>
+        </section>
+
+        <section id="page-cart" class="page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h1 class="h3 view-title mb-0">购物车</h1>
+                <button class="btn btn-outline-danger" onclick="clearCart()"><i class="bi bi-trash3"></i> 清空</button>
+            </div>
+            <div id="cartItems"></div>
+            <div class="toolbar mt-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <h2 class="h5 mb-0">合计：<span id="cartTotal" class="price">0.00 元</span></h2>
+                <button class="btn btn-success" onclick="checkout()"><i class="bi bi-credit-card"></i> 结算</button>
+            </div>
+        </section>
+
+        <section id="page-orders" class="page">
+            <h1 class="h3 view-title">我的订单</h1>
+            <div id="ordersList"></div>
+        </section>
+
+        <section id="page-favorites" class="page">
+            <h1 class="h3 view-title">我的收藏</h1>
+            <div id="favoritesList" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3"></div>
+        </section>
+
+        <section id="page-complaints" class="page">
+            <h1 class="h3 view-title">我的投诉</h1>
+            <div id="complaintsList"></div>
+        </section>
+
+        <section id="page-seller" class="page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h1 class="h3 view-title mb-0">卖家中心</h1>
+                <div class="btn-group">
+                    <button class="btn btn-outline-primary active" id="sellerOrdersTab" onclick="showSellerTab('orders')"><i class="bi bi-truck"></i> 发货管理</button>
+                    <button class="btn btn-outline-primary" id="sellerComplaintsTab" onclick="showSellerTab('complaints')"><i class="bi bi-chat-left-text"></i> 投诉回复</button>
+                </div>
+            </div>
+            <div id="seller-orders"></div>
+            <div id="seller-complaints" class="d-none"></div>
+        </section>
+
+        <section id="page-admin" class="page">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h1 class="h3 view-title mb-0">管理后台</h1>
+                <div class="btn-group">
+                    <button class="btn btn-outline-primary active admin-tab" onclick="showAdminTab('products')"><i class="bi bi-box"></i> 商品</button>
+                    <button class="btn btn-outline-primary admin-tab" onclick="showAdminTab('complaints')"><i class="bi bi-exclamation-circle"></i> 投诉</button>
+                    <button class="btn btn-outline-primary admin-tab" onclick="showAdminTab('users')"><i class="bi bi-people"></i> 用户</button>
+                </div>
+            </div>
+            <div id="admin-products"></div>
+            <div id="admin-complaints" class="d-none"></div>
+            <div id="admin-users" class="d-none"></div>
+        </section>
+    </main>
+
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-person"></i> 用户登录</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="login(event)">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">用户名</label>
+                            <input type="text" class="form-control" id="loginUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">密码</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> 登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-person-plus"></i> 用户注册</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="register(event)">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">用户名 *</label>
+                            <input type="text" class="form-control" id="regUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">密码 *</label>
+                            <input type="password" class="form-control" id="regPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">邮箱</label>
+                            <input type="email" class="form-control" id="regEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">手机号</label>
+                            <input type="text" class="form-control" id="regPhone">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> 注册</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="rechargeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-wallet2"></i> 钱包充值</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="recharge(event)">
+                    <div class="modal-body">
+                        <p class="mb-3">当前余额：<strong id="currentBalance">0.00 元</strong></p>
+                        <label class="form-label">充值金额</label>
+                        <input type="number" class="form-control" id="rechargeAmount" min="0.01" step="0.01" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle"></i> 充值</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalTitle">商品详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="productModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" onclick="addToFavorite(currentProductId)"><i class="bi bi-heart"></i> <span id="productFavoriteText">收藏</span></button>
+                    <button type="button" class="btn btn-primary" onclick="addToCart(currentProductId)"><i class="bi bi-cart-plus"></i> 加入购物车</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="orderModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-receipt"></i> 订单详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="orderModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="complaintModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> 投诉订单 #<span id="complaintOrderId"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="submitComplaint(event)">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">投诉类型</label>
+                            <select class="form-select" id="complaintType" required>
+                                <option value="quality">商品质量</option>
+                                <option value="service">服务态度</option>
+                                <option value="delivery">物流配送</option>
+                                <option value="other">其他问题</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">投诉原因</label>
+                            <textarea class="form-control" id="complaintReason" rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-warning"><i class="bi bi-send"></i> 提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="sellerReplyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-chat-left-text"></i> 回复投诉 #<span id="replyComplaintId"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="submitSellerReply(event)">
+                    <div class="modal-body">
+                        <p class="muted" id="replyComplaintReason"></p>
+                        <label class="form-label">回复内容</label>
+                        <textarea class="form-control" id="sellerReplyText" rows="5" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> 回复</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="handleComplaintModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-gear"></i> 处理投诉 #<span id="handleComplaintId"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form onsubmit="handleComplaint(event)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>用户：</strong><span id="handleComplaintUser"></span></p>
+                                <p><strong>订单：</strong><span id="handleComplaintOrder"></span></p>
+                                <p><strong>原因：</strong><span id="handleComplaintReason"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>卖家回复：</strong><span id="handleSellerReply"></span></p>
+                                <p><strong>订单金额：</strong><span id="handleComplaintAmount"></span></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">处理意见</label>
+                            <textarea class="form-control" id="handleOpinion" rows="4" required></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="requireRefund">
+                            <label class="form-check-label" for="requireRefund">要求退款</label>
+                        </div>
+                        <div class="mb-3 d-none" id="refundAmountDiv">
+                            <label class="form-label">退款金额</label>
+                            <input type="number" class="form-control" id="refundAmount" min="0.01" step="0.01">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> 保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+        const API_HOST = window.location.hostname || 'localhost';
+        const API_ORIGIN = window.location.protocol.startsWith('http')
+            ? `${window.location.protocol}//${API_HOST}:5000`
+            : 'http://localhost:5000';
+        const API_URL = `${API_ORIGIN}/api`;
+        let currentUser = null;
+        let currentProductId = null;
+        let adminComplaintCache = [];
+        let sellerComplaintCache = [];
+        let currentLang = localStorage.getItem('market_lang') || 'zh';
+
+        if (!['zh', 'en'].includes(currentLang)) {
+            currentLang = 'zh';
+        }
+
+        const i18n = {
+            zh: {
+                "app.title": "时令特色产品市场",
+                "language.switchToEnglish": "切换到英文",
+                "language.switchToChinese": "切换到中文",
+                "nav.home": "首页",
+                "nav.publish": "发布",
+                "nav.myProducts": "我的发布",
+                "nav.cart": "购物车",
+                "nav.orders": "订单",
+                "nav.favorites": "收藏",
+                "nav.complaints": "投诉",
+                "nav.seller": "卖家中心",
+                "nav.admin": "管理后台",
+                "nav.login": "登录",
+                "nav.register": "注册",
+                "nav.logout": "退出",
+                "hero.kicker": "Seasonal Marketplace",
+                "hero.title": "按季节上新，按订单流转的特色产品市场",
+                "hero.copy": "浏览在售商品、管理购物车与订单，也可以作为卖家发布产品、发货并回复投诉。界面围绕实验系统的真实业务流程设计。",
+                "metric.products": "当前展示商品",
+                "metric.categories": "商品分类",
+                "metric.identity": "当前身份",
+                "filter.searchProduct": "搜索商品",
+                "filter.category": "分类筛选",
+                "filter.allCategories": "全部分类",
+                "placeholder.search": "输入名称或描述",
+                "page.publish": "发布商品",
+                "page.myProducts": "我的发布",
+                "page.cart": "购物车",
+                "page.orders": "我的订单",
+                "page.favorites": "我的收藏",
+                "page.complaints": "我的投诉",
+                "page.seller": "卖家中心",
+                "page.admin": "管理后台",
+                "action.searchProducts": "搜索商品",
+                "action.publishProduct": "发布商品",
+                "action.search": "搜索",
+                "action.reset": "重置",
+                "action.view": "查看",
+                "action.detail": "详情",
+                "action.favorite": "收藏",
+                "action.addToCart": "加入购物车",
+                "action.addCartShort": "加购",
+                "action.unfavorite": "取消",
+                "action.newProduct": "新商品",
+                "action.clear": "清空",
+                "action.checkout": "结算",
+                "action.login": "登录",
+                "action.register": "注册",
+                "action.cancel": "取消",
+                "action.recharge": "充值",
+                "action.submit": "提交",
+                "action.reply": "回复",
+                "action.save": "保存",
+                "action.ship": "发货",
+                "action.handle": "处理",
+                "action.downlist": "下架",
+                "action.decrease": "减少",
+                "action.increase": "增加",
+                "action.remove": "移除",
+                "action.confirmReceive": "确认收货",
+                "action.complain": "投诉",
+                "action.freeze": "冻结",
+                "action.unfreeze": "解冻",
+                "seller.shipManagement": "发货管理",
+                "seller.complaintReply": "投诉回复",
+                "admin.products": "商品",
+                "admin.complaints": "投诉",
+                "admin.users": "用户",
+                "form.productName": "商品名称 *",
+                "form.productCategory": "商品分类 *",
+                "form.selectCategory": "请选择分类",
+                "form.price": "价格 *",
+                "form.origin": "产地",
+                "form.salesStart": "销售期开始 *",
+                "form.salesEnd": "销售期结束 *",
+                "form.description": "商品描述",
+                "form.username": "用户名",
+                "form.usernameRequired": "用户名 *",
+                "form.password": "密码",
+                "form.passwordRequired": "密码 *",
+                "form.email": "邮箱",
+                "form.phone": "手机号",
+                "form.rechargeAmount": "充值金额",
+                "form.complaintType": "投诉类型",
+                "form.complaintReason": "投诉原因",
+                "form.replyContent": "回复内容",
+                "form.handleOpinion": "处理意见",
+                "form.requireRefund": "要求退款",
+                "form.refundAmount": "退款金额",
+                "modal.login": "用户登录",
+                "modal.register": "用户注册",
+                "modal.recharge": "钱包充值",
+                "modal.productDetail": "商品详情",
+                "modal.orderDetail": "订单详情",
+                "modal.complainOrder": "投诉订单 #",
+                "modal.replyComplaint": "回复投诉 #",
+                "modal.handleComplaint": "处理投诉 #",
+                "label.currentBalance": "当前余额：",
+                "label.total": "合计：",
+                "label.user": "用户：",
+                "label.order": "订单：",
+                "label.reason": "原因：",
+                "label.sellerReply": "卖家回复：",
+                "label.orderAmount": "订单金额：",
+                "label.origin": "产地：",
+                "label.publisher": "发布者：",
+                "label.salesPeriod": "销售期：",
+                "label.orderId": "订单ID：",
+                "label.status": "状态：",
+                "label.totalAmount": "总金额：",
+                "label.createdAt": "创建时间：",
+                "label.complaintReason": "投诉原因：",
+                "label.handleOpinion": "处理意见：",
+                "label.refundAmount": "退款金额：",
+                "role.guest": "访客",
+                "role.admin": "管理员",
+                "role.normalUser": "普通用户",
+                "state.normal": "正常",
+                "state.frozen": "已冻结",
+                "currency.unit": "元",
+                "common.unknown": "未知",
+                "common.uncategorized": "未分类",
+                "common.unknownOrigin": "未知产地",
+                "common.noDescription": "暂无描述",
+                "common.noReply": "暂无回复",
+                "common.noItemDetails": "无商品明细",
+                "common.to": "至",
+                "common.buyer": "买家",
+                "common.favoriteTime": "收藏时间：",
+                "common.favorited": "已收藏",
+                "entity.order": "订单",
+                "entity.complaint": "投诉",
+                "table.id": "ID",
+                "table.name": "名称",
+                "table.category": "分类",
+                "table.price": "价格",
+                "table.status": "状态",
+                "table.salesPeriod": "销售期",
+                "table.actions": "操作",
+                "table.publisher": "发布者",
+                "table.order": "订单",
+                "table.user": "用户",
+                "table.type": "类型",
+                "table.orderAmount": "订单金额",
+                "table.username": "用户名",
+                "table.email": "邮箱",
+                "table.phone": "手机",
+                "table.role": "角色",
+                "table.balance": "余额",
+                "table.product": "商品",
+                "table.quantity": "数量",
+                "table.unitPrice": "单价",
+                "table.subtotal": "小计",
+                "status.pending": "待支付",
+                "status.paid": "已支付",
+                "status.shipped": "已发货",
+                "status.received": "已收货",
+                "status.completed": "已完成",
+                "status.cancelled": "已取消",
+                "status.refunded": "已退款",
+                "status.onSale": "在售",
+                "status.offSale": "下架",
+                "status.soldOut": "售罄",
+                "status.sellerReplied": "卖家已回复",
+                "status.processed": "已处理",
+                "complaint.quality": "商品质量",
+                "complaint.service": "服务态度",
+                "complaint.delivery": "物流配送",
+                "complaint.other": "其他问题",
+                "category.fruits": "时令水果",
+                "category.vegetables": "特色蔬菜",
+                "category.seafood": "海鲜水产",
+                "category.specialties": "地方特产",
+                "category.meat": "生鲜肉类",
+                "empty.productsLoadFailed": "商品加载失败，请确认 MySQL 已启动",
+                "empty.noProducts": "暂无商品",
+                "empty.noMyProducts": "还没有发布商品",
+                "empty.cart": "购物车为空",
+                "empty.orders": "暂无订单",
+                "empty.favorites": "暂无收藏",
+                "empty.complaints": "暂无投诉",
+                "empty.sellerOrders": "暂无与我发布商品相关的订单",
+                "empty.sellerComplaints": "暂无对我商品的投诉",
+                "empty.users": "暂无用户",
+                "msg.needAdmin": "需要管理员权限",
+                "msg.categoryLoadFailed": "分类加载失败，请确认后端和 MySQL 已启动",
+                "msg.loginSuccess": "登录成功",
+                "msg.loginFailed": "登录失败",
+                "msg.registerSuccess": "注册成功，请登录",
+                "msg.registerFailed": "注册失败",
+                "msg.logoutSuccess": "已退出登录",
+                "msg.rechargeSuccess": "充值成功",
+                "msg.rechargeFailed": "充值失败",
+                "msg.publishSuccess": "商品发布成功",
+                "msg.publishFailed": "发布失败",
+                "msg.productDownlisted": "商品已下架",
+                "msg.deleteFailed": "删除失败",
+                "msg.addCartSuccess": "已加入购物车",
+                "msg.addCartFailed": "加入购物车失败",
+                "msg.updateFailed": "更新失败",
+                "msg.cartCleared": "购物车已清空",
+                "msg.checkoutSuccess": "下单成功",
+                "msg.checkoutFailed": "结算失败",
+                "msg.orderLoadFailed": "加载订单失败",
+                "msg.receiveSuccess": "确认收货成功",
+                "msg.operationFailed": "操作失败",
+                "msg.favoriteSuccess": "已加入收藏",
+                "msg.favoriteFailed": "收藏失败",
+                "msg.unfavoriteSuccess": "已取消收藏",
+                "msg.complaintSuccess": "投诉提交成功",
+                "msg.submitFailed": "提交失败",
+                "msg.shipSuccess": "订单已发货",
+                "msg.shipFailed": "发货失败",
+                "msg.replySuccess": "回复已提交",
+                "msg.replyFailed": "回复失败",
+                "msg.handleSuccess": "投诉处理成功",
+                "msg.handleFailed": "处理失败",
+                "msg.userFrozen": "用户已冻结",
+                "msg.userUnfrozen": "用户已解冻",
+                "confirm.downlistOwn": "确定下架这个商品吗？",
+                "confirm.downlistAdmin": "确定下架该违规商品吗？",
+                "confirm.clearCart": "确定清空购物车吗？",
+                "confirm.receive": "确认已经收到商品吗？",
+                "confirm.ship": "确认将该订单标记为已发货吗？",
+                "confirm.freeze": "确定冻结该用户吗？",
+                "confirm.unfreeze": "确定解冻该用户吗？",
+                "alt.hero": "时令蔬果市场"
+            },
+            en: {
+                "app.title": "Seasonal Specialty Market",
+                "language.switchToEnglish": "Switch to English",
+                "language.switchToChinese": "Switch to Chinese",
+                "nav.home": "Home",
+                "nav.publish": "Publish",
+                "nav.myProducts": "My Listings",
+                "nav.cart": "Cart",
+                "nav.orders": "Orders",
+                "nav.favorites": "Favorites",
+                "nav.complaints": "Complaints",
+                "nav.seller": "Seller Center",
+                "nav.admin": "Admin",
+                "nav.login": "Log In",
+                "nav.register": "Register",
+                "nav.logout": "Log Out",
+                "hero.kicker": "Seasonal Marketplace",
+                "hero.title": "A seasonal specialty market built around orders",
+                "hero.copy": "Browse active listings, manage cart and orders, or publish products as a seller, ship orders, and reply to complaints. The interface follows the real workflow required by the lab system.",
+                "metric.products": "Visible Products",
+                "metric.categories": "Categories",
+                "metric.identity": "Current Role",
+                "filter.searchProduct": "Search Products",
+                "filter.category": "Category Filter",
+                "filter.allCategories": "All Categories",
+                "placeholder.search": "Name or description",
+                "page.publish": "Publish Product",
+                "page.myProducts": "My Listings",
+                "page.cart": "Cart",
+                "page.orders": "My Orders",
+                "page.favorites": "My Favorites",
+                "page.complaints": "My Complaints",
+                "page.seller": "Seller Center",
+                "page.admin": "Admin Console",
+                "action.searchProducts": "Search Products",
+                "action.publishProduct": "Publish Product",
+                "action.search": "Search",
+                "action.reset": "Reset",
+                "action.view": "View",
+                "action.detail": "Details",
+                "action.favorite": "Favorite",
+                "action.addToCart": "Add to Cart",
+                "action.addCartShort": "Add",
+                "action.unfavorite": "Remove",
+                "action.newProduct": "New Product",
+                "action.clear": "Clear",
+                "action.checkout": "Checkout",
+                "action.login": "Log In",
+                "action.register": "Register",
+                "action.cancel": "Cancel",
+                "action.recharge": "Top Up",
+                "action.submit": "Submit",
+                "action.reply": "Reply",
+                "action.save": "Save",
+                "action.ship": "Ship",
+                "action.handle": "Handle",
+                "action.downlist": "Remove",
+                "action.decrease": "Decrease",
+                "action.increase": "Increase",
+                "action.remove": "Remove",
+                "action.confirmReceive": "Confirm Receipt",
+                "action.complain": "Complain",
+                "action.freeze": "Freeze",
+                "action.unfreeze": "Unfreeze",
+                "seller.shipManagement": "Shipping",
+                "seller.complaintReply": "Complaint Replies",
+                "admin.products": "Products",
+                "admin.complaints": "Complaints",
+                "admin.users": "Users",
+                "form.productName": "Product Name *",
+                "form.productCategory": "Product Category *",
+                "form.selectCategory": "Select Category",
+                "form.price": "Price *",
+                "form.origin": "Origin",
+                "form.salesStart": "Sales Start *",
+                "form.salesEnd": "Sales End *",
+                "form.description": "Product Description",
+                "form.username": "Username",
+                "form.usernameRequired": "Username *",
+                "form.password": "Password",
+                "form.passwordRequired": "Password *",
+                "form.email": "Email",
+                "form.phone": "Phone",
+                "form.rechargeAmount": "Top-up Amount",
+                "form.complaintType": "Complaint Type",
+                "form.complaintReason": "Complaint Reason",
+                "form.replyContent": "Reply",
+                "form.handleOpinion": "Resolution Note",
+                "form.requireRefund": "Require Refund",
+                "form.refundAmount": "Refund Amount",
+                "modal.login": "User Login",
+                "modal.register": "User Registration",
+                "modal.recharge": "Wallet Top-up",
+                "modal.productDetail": "Product Details",
+                "modal.orderDetail": "Order Details",
+                "modal.complainOrder": "Complain About Order #",
+                "modal.replyComplaint": "Reply to Complaint #",
+                "modal.handleComplaint": "Handle Complaint #",
+                "label.currentBalance": "Current Balance:",
+                "label.total": "Total:",
+                "label.user": "User:",
+                "label.order": "Order:",
+                "label.reason": "Reason:",
+                "label.sellerReply": "Seller Reply:",
+                "label.orderAmount": "Order Amount:",
+                "label.origin": "Origin:",
+                "label.publisher": "Publisher:",
+                "label.salesPeriod": "Sales Period:",
+                "label.orderId": "Order ID:",
+                "label.status": "Status:",
+                "label.totalAmount": "Total Amount:",
+                "label.createdAt": "Created At:",
+                "label.complaintReason": "Complaint Reason:",
+                "label.handleOpinion": "Resolution Note:",
+                "label.refundAmount": "Refund Amount:",
+                "role.guest": "Guest",
+                "role.admin": "Admin",
+                "role.normalUser": "Normal User",
+                "state.normal": "Normal",
+                "state.frozen": "Frozen",
+                "currency.unit": "CNY",
+                "common.unknown": "Unknown",
+                "common.uncategorized": "Uncategorized",
+                "common.unknownOrigin": "Unknown Origin",
+                "common.noDescription": "No description",
+                "common.noReply": "No reply yet",
+                "common.noItemDetails": "No item details",
+                "common.to": "to",
+                "common.buyer": "Buyer",
+                "common.favoriteTime": "Favorited at: ",
+                "common.favorited": "Favorited",
+                "entity.order": "Order",
+                "entity.complaint": "Complaint",
+                "table.id": "ID",
+                "table.name": "Name",
+                "table.category": "Category",
+                "table.price": "Price",
+                "table.status": "Status",
+                "table.salesPeriod": "Sales Period",
+                "table.actions": "Actions",
+                "table.publisher": "Publisher",
+                "table.order": "Order",
+                "table.user": "User",
+                "table.type": "Type",
+                "table.orderAmount": "Order Amount",
+                "table.username": "Username",
+                "table.email": "Email",
+                "table.phone": "Phone",
+                "table.role": "Role",
+                "table.balance": "Balance",
+                "table.product": "Product",
+                "table.quantity": "Quantity",
+                "table.unitPrice": "Unit Price",
+                "table.subtotal": "Subtotal",
+                "status.pending": "Pending Payment",
+                "status.paid": "Paid",
+                "status.shipped": "Shipped",
+                "status.received": "Received",
+                "status.completed": "Completed",
+                "status.cancelled": "Cancelled",
+                "status.refunded": "Refunded",
+                "status.onSale": "On Sale",
+                "status.offSale": "Removed",
+                "status.soldOut": "Sold Out",
+                "status.sellerReplied": "Seller Replied",
+                "status.processed": "Processed",
+                "complaint.quality": "Product Quality",
+                "complaint.service": "Service",
+                "complaint.delivery": "Delivery",
+                "complaint.other": "Other",
+                "category.fruits": "Seasonal Fruits",
+                "category.vegetables": "Specialty Vegetables",
+                "category.seafood": "Seafood",
+                "category.specialties": "Local Specialties",
+                "category.meat": "Fresh Meat",
+                "empty.productsLoadFailed": "Products failed to load. Please make sure MySQL is running.",
+                "empty.noProducts": "No products yet",
+                "empty.noMyProducts": "No listings yet",
+                "empty.cart": "Your cart is empty",
+                "empty.orders": "No orders yet",
+                "empty.favorites": "No favorites yet",
+                "empty.complaints": "No complaints yet",
+                "empty.sellerOrders": "No orders for your listings yet",
+                "empty.sellerComplaints": "No complaints for your products yet",
+                "empty.users": "No users yet",
+                "msg.needAdmin": "Admin permission is required",
+                "msg.categoryLoadFailed": "Categories failed to load. Please make sure the backend and MySQL are running.",
+                "msg.loginSuccess": "Logged in successfully",
+                "msg.loginFailed": "Login failed",
+                "msg.registerSuccess": "Registration succeeded. Please log in.",
+                "msg.registerFailed": "Registration failed",
+                "msg.logoutSuccess": "Logged out",
+                "msg.rechargeSuccess": "Top-up succeeded",
+                "msg.rechargeFailed": "Top-up failed",
+                "msg.publishSuccess": "Product published",
+                "msg.publishFailed": "Publish failed",
+                "msg.productDownlisted": "Product removed",
+                "msg.deleteFailed": "Delete failed",
+                "msg.addCartSuccess": "Added to cart",
+                "msg.addCartFailed": "Failed to add to cart",
+                "msg.updateFailed": "Update failed",
+                "msg.cartCleared": "Cart cleared",
+                "msg.checkoutSuccess": "Order placed",
+                "msg.checkoutFailed": "Checkout failed",
+                "msg.orderLoadFailed": "Failed to load order",
+                "msg.receiveSuccess": "Receipt confirmed",
+                "msg.operationFailed": "Operation failed",
+                "msg.favoriteSuccess": "Added to favorites",
+                "msg.favoriteFailed": "Favorite failed",
+                "msg.unfavoriteSuccess": "Removed from favorites",
+                "msg.complaintSuccess": "Complaint submitted",
+                "msg.submitFailed": "Submit failed",
+                "msg.shipSuccess": "Order shipped",
+                "msg.shipFailed": "Shipping failed",
+                "msg.replySuccess": "Reply submitted",
+                "msg.replyFailed": "Reply failed",
+                "msg.handleSuccess": "Complaint handled",
+                "msg.handleFailed": "Handling failed",
+                "msg.userFrozen": "User frozen",
+                "msg.userUnfrozen": "User unfrozen",
+                "confirm.downlistOwn": "Remove this product from sale?",
+                "confirm.downlistAdmin": "Remove this violating product?",
+                "confirm.clearCart": "Clear the cart?",
+                "confirm.receive": "Confirm that you have received the products?",
+                "confirm.ship": "Mark this order as shipped?",
+                "confirm.freeze": "Freeze this user?",
+                "confirm.unfreeze": "Unfreeze this user?",
+                "alt.hero": "Seasonal produce market"
+            }
+        };
+
+        const staticTranslationKeys = [
+            "app.title", "nav.home", "nav.publish", "nav.myProducts", "nav.cart", "nav.orders",
+            "nav.favorites", "nav.complaints", "nav.seller", "nav.admin", "nav.login", "nav.register",
+            "nav.logout", "hero.kicker", "hero.title", "hero.copy", "metric.products", "metric.categories",
+            "metric.identity", "filter.searchProduct", "filter.category", "filter.allCategories",
+            "placeholder.search", "page.publish", "page.myProducts", "page.cart", "page.orders",
+            "page.favorites", "page.complaints", "page.seller", "page.admin", "action.searchProducts",
+            "action.publishProduct", "action.search", "action.reset", "action.newProduct", "action.clear",
+            "action.checkout", "action.login", "action.register", "action.cancel", "action.recharge",
+            "action.addToCart", "action.submit", "action.reply", "action.save",
+            "seller.shipManagement", "seller.complaintReply", "admin.products", "admin.complaints",
+            "admin.users", "form.productName", "form.productCategory", "form.price", "form.origin",
+            "form.salesStart", "form.salesEnd", "form.description", "form.username", "form.usernameRequired",
+            "form.password", "form.passwordRequired", "form.email", "form.phone", "form.rechargeAmount",
+            "form.complaintType", "form.complaintReason", "form.replyContent", "form.handleOpinion",
+            "form.requireRefund", "form.refundAmount", "modal.login", "modal.register", "modal.recharge",
+            "modal.productDetail", "modal.orderDetail", "modal.complainOrder", "modal.replyComplaint",
+            "modal.handleComplaint", "label.currentBalance", "label.total", "label.user", "label.order",
+            "label.reason", "label.sellerReply", "label.orderAmount", "complaint.quality",
+            "complaint.service", "complaint.delivery", "complaint.other", "role.guest", "currency.unit",
+            "alt.hero"
+        ];
+
+        const labelKeys = {
+            pending: "status.pending",
+            paid: "status.paid",
+            shipped: "status.shipped",
+            received: "status.received",
+            completed: "status.completed",
+            cancelled: "status.cancelled",
+            refunded: "status.refunded",
+            on_sale: "status.onSale",
+            off_sale: "status.offSale",
+            sold_out: "status.soldOut",
+            seller_replied: "status.sellerReplied",
+            processed: "status.processed",
+            quality: "complaint.quality",
+            service: "complaint.service",
+            delivery: "complaint.delivery",
+            other: "complaint.other",
+            "管理员": "role.admin",
+            "普通用户": "role.normalUser",
+            "已冻结": "state.frozen",
+            "正常": "state.normal"
+        };
+
+        const badgeStyles = {
+            pending: "warning",
+            paid: "primary",
+            shipped: "info",
+            received: "success",
+            completed: "success",
+            cancelled: "secondary",
+            refunded: "danger",
+            on_sale: "success",
+            off_sale: "secondary",
+            sold_out: "dark",
+            seller_replied: "info",
+            processed: "success",
+            quality: "danger",
+            service: "warning",
+            delivery: "primary",
+            other: "secondary",
+            "管理员": "primary",
+            "普通用户": "secondary",
+            "已冻结": "danger",
+            "正常": "success"
+        };
+
+        const categoryKeys = {
+            "时令水果": "category.fruits",
+            "特色蔬菜": "category.vegetables",
+            "海鲜水产": "category.seafood",
+            "地方特产": "category.specialties",
+            "生鲜肉类": "category.meat"
+        };
+
+        const serverMessageKeys = {
+            "商品已下架": "msg.productDownlisted",
+            "登录成功": "msg.loginSuccess",
+            "注册成功，请登录": "msg.registerSuccess",
+            "充值成功": "msg.rechargeSuccess",
+            "商品发布成功": "msg.publishSuccess",
+            "已加入购物车": "msg.addCartSuccess",
+            "购物车已清空": "msg.cartCleared",
+            "下单成功": "msg.checkoutSuccess",
+            "确认收货成功": "msg.receiveSuccess",
+            "已加入收藏": "msg.favoriteSuccess",
+            "已取消收藏": "msg.unfavoriteSuccess",
+            "投诉提交成功": "msg.complaintSuccess",
+            "订单已发货": "msg.shipSuccess",
+            "回复已提交": "msg.replySuccess",
+            "投诉处理成功": "msg.handleSuccess",
+            "用户已冻结": "msg.userFrozen",
+            "用户已解冻": "msg.userUnfrozen",
+            "需要管理员权限": "msg.needAdmin",
+            "登录失败": "msg.loginFailed",
+            "注册失败": "msg.registerFailed",
+            "充值失败": "msg.rechargeFailed",
+            "发布失败": "msg.publishFailed",
+            "删除失败": "msg.deleteFailed",
+            "加入购物车失败": "msg.addCartFailed",
+            "更新失败": "msg.updateFailed",
+            "结算失败": "msg.checkoutFailed",
+            "加载订单失败": "msg.orderLoadFailed",
+            "操作失败": "msg.operationFailed",
+            "收藏失败": "msg.favoriteFailed",
+            "提交失败": "msg.submitFailed",
+            "发货失败": "msg.shipFailed",
+            "回复失败": "msg.replyFailed",
+            "处理失败": "msg.handleFailed"
+        };
+
+        const categoryImages = {
+            '时令水果': 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=900&q=80',
+            '特色蔬菜': 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=900&q=80',
+            '海鲜水产': 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=900&q=80',
+            '地方特产': 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&w=900&q=80',
+            '生鲜肉类': 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=900&q=80'
+        };
+
+        function t(key) {
+            return i18n[currentLang]?.[key] || i18n.zh[key] || key;
+        }
+
+        function translateServerText(message) {
+            if (!message) return '';
+            return serverMessageKeys[message] ? t(serverMessageKeys[message]) : message;
+        }
+
+        function apiError(xhr, fallbackKey) {
+            return translateServerText(xhr.responseJSON?.error) || t(fallbackKey);
+        }
+
+        function apiMessage(message, fallbackKey) {
+            return translateServerText(message) || t(fallbackKey);
+        }
+
+        function displayCategoryName(name) {
+            return categoryKeys[name] ? t(categoryKeys[name]) : (name || t('common.uncategorized'));
+        }
+
+        function displayLabel(value) {
+            if (labelKeys[value]) return t(labelKeys[value]);
+            if (categoryKeys[value]) return t(categoryKeys[value]);
+            return value || t('common.unknown');
+        }
+
+        function dateRange(start, end) {
+            return `${escapeHtml(start || '')} ${t('common.to')} ${escapeHtml(end || '')}`;
+        }
+
+        function buildStaticValueMap() {
+            const sourceLang = currentLang === 'en' ? 'zh' : 'en';
+            const map = {};
+            staticTranslationKeys.forEach(function(key) {
+                const source = i18n[sourceLang][key];
+                const target = i18n[currentLang][key];
+                if (source && target && source !== target) {
+                    map[source] = target;
+                }
+            });
+            return map;
+        }
+
+        function translateStaticText(root) {
+            const map = buildStaticValueMap();
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    const parent = node.parentElement;
+                    if (!parent || ['SCRIPT', 'STYLE'].includes(parent.tagName)) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    return node.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                }
+            });
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            nodes.forEach(function(node) {
+                const value = node.nodeValue;
+                const trimmed = value.trim();
+                if (!map[trimmed]) return;
+                const prefix = value.match(/^\s*/)[0];
+                const suffix = value.match(/\s*$/)[0];
+                node.nodeValue = prefix + map[trimmed] + suffix;
+            });
+        }
+
+        function translateStaticAttributes(root) {
+            const map = buildStaticValueMap();
+            root.querySelectorAll('[placeholder], [title], [alt]').forEach(function(el) {
+                ['placeholder', 'title', 'alt'].forEach(function(attr) {
+                    const value = el.getAttribute(attr);
+                    if (value && map[value]) {
+                        el.setAttribute(attr, map[value]);
+                    }
+                });
+            });
+        }
+
+        function applyLanguage() {
+            document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-CN';
+            document.title = t('app.title');
+            translateStaticText(document.body);
+            translateStaticAttributes(document.body);
+            $('#languageToggleText').text(currentLang === 'en' ? '中文' : 'EN');
+            $('#languageToggle').attr('title', currentLang === 'en' ? t('language.switchToChinese') : t('language.switchToEnglish'));
+            $('#productFavoriteText').text(t('action.favorite'));
+            $('#balanceUnit').text(t('currency.unit'));
+            if (!$('#cartItems').children().length) {
+                $('#cartTotal').text(money(0));
+            }
+            $('#currentBalance').text(currentUser ? money(currentUser.balance) : money(0));
+            updateAuthView();
+        }
+
+        function activePageName() {
+            return ($('.page.active').attr('id') || 'page-home').replace('page-', '');
+        }
+
+        function refreshCurrentPageForLanguage() {
+            updateAuthView();
+            loadCategories();
+            const page = activePageName();
+            if (page === 'home') loadProducts();
+            if (page === 'my-products') loadMyProducts();
+            if (page === 'cart') loadCart();
+            if (page === 'orders') loadOrders();
+            if (page === 'favorites') loadFavorites();
+            if (page === 'complaints') loadComplaints();
+            if (page === 'seller') {
+                if ($('#seller-complaints').hasClass('d-none')) loadSellerOrders();
+                else loadSellerComplaints();
+            }
+            if (page === 'admin') {
+                if (!$('#admin-products').hasClass('d-none')) loadAdminProducts();
+                if (!$('#admin-complaints').hasClass('d-none')) loadAdminComplaints();
+                if (!$('#admin-users').hasClass('d-none')) loadAdminUsers();
+            }
+        }
+
+        function setLanguage(lang) {
+            if (!i18n[lang] || currentLang === lang) return;
+            currentLang = lang;
+            localStorage.setItem('market_lang', currentLang);
+            applyLanguage();
+            refreshCurrentPageForLanguage();
+        }
+
+        function toggleLanguage() {
+            setLanguage(currentLang === 'en' ? 'zh' : 'en');
+        }
+
+        $.ajaxSetup({
+            xhrFields: { withCredentials: true }
+        });
+
+        $(document).ready(function() {
+            applyLanguage();
+            initMotion();
+            loadCategories();
+            loadProducts();
+            checkLogin();
+            $('#requireRefund').on('change', function() {
+                $('#refundAmountDiv').toggleClass('d-none', !this.checked);
+            });
+            $(document).ajaxComplete(function() {
+                requestAnimationFrame(refreshReveal);
+            });
+        });
+
+        function initMotion() {
+            refreshReveal();
+
+            const nav = document.querySelector('.navbar');
+            const progress = document.querySelector('.scroll-progress');
+
+            function updateScrollState() {
+                const maxScroll = Math.max(document.body.scrollHeight - window.innerHeight, 1);
+                const progressValue = Math.min(window.scrollY / maxScroll, 1);
+                if (nav) nav.classList.toggle('scrolled', window.scrollY > 12);
+                if (progress) progress.style.transform = `scaleX(${progressValue})`;
+            }
+
+            updateScrollState();
+            window.addEventListener('scroll', updateScrollState, { passive: true });
+        }
+
+        function refreshReveal() {
+            document.querySelectorAll('.toolbar, .product-card, .data-card, .table-responsive, .empty-state').forEach(function(el) {
+                el.classList.add('reveal');
+            });
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const items = document.querySelectorAll('.reveal:not(.reveal-ready)');
+            if (reduceMotion || !('IntersectionObserver' in window)) {
+                items.forEach(function(el) {
+                    el.classList.add('reveal-ready', 'in-view');
+                });
+                return;
+            }
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                });
+            }, { threshold: 0.12 });
+
+            items.forEach(function(el) {
+                el.classList.add('reveal-ready');
+                observer.observe(el);
+            });
+        }
+
+        function api(method, path, data) {
+            return $.ajax({
+                url: API_URL + path,
+                method,
+                data: data === undefined ? undefined : JSON.stringify(data),
+                contentType: data === undefined ? undefined : 'application/json',
+                dataType: 'json'
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, function(ch) {
+                return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch];
+            });
+        }
+
+        function money(value) {
+            const amount = Number(value || 0).toFixed(2);
+            return currentLang === 'en' ? `CNY ${amount}` : `${amount} ${t('currency.unit')}`;
+        }
+
+        function badge(value) {
+            const style = badgeStyles[value] || (categoryKeys[value] ? 'secondary' : 'secondary');
+            return `<span class="badge text-bg-${style}">${escapeHtml(displayLabel(value))}</span>`;
+        }
+
+        function imageFor(product) {
+            return categoryImages[product.category_name] || categoryImages['地方特产'];
+        }
+
+        function showAlert(type, message) {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x shadow-sm" style="z-index: 9999; margin-top: 78px; max-width: 92vw;">
+                    ${escapeHtml(message)}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            $('body').append(alertHtml);
+            setTimeout(function() {
+                $('.alert').first().alert('close');
+            }, 2800);
+        }
+
+        function emptyState(text, icon = 'bi-inbox') {
+            return `<div class="empty-state"><i class="bi ${icon} fs-1 d-block mb-2"></i><h2 class="h5">${escapeHtml(text)}</h2></div>`;
+        }
+
+        function requireLogin() {
+            if (!currentUser) {
+                showLoginModal();
+                return false;
+            }
+            return true;
+        }
+
+        function closeModal(selector) {
+            const instance = bootstrap.Modal.getInstance(document.querySelector(selector));
+            if (instance) instance.hide();
+        }
+
+        function showPage(page) {
+            if (['publish', 'my-products', 'cart', 'orders', 'favorites', 'complaints', 'seller'].includes(page) && !requireLogin()) {
+                return;
+            }
+            if (page === 'admin' && (!currentUser || !currentUser.is_admin)) {
+                showAlert('warning', t('msg.needAdmin'));
+                return;
+            }
+
+            $('.page').removeClass('active');
+            $('#page-' + page).addClass('active');
+            const navEl = document.getElementById('navbarNav');
+            const navCollapse = bootstrap.Collapse.getInstance(navEl);
+            if (navCollapse) navCollapse.hide();
+
+            if (page === 'home') loadProducts();
+            if (page === 'my-products') loadMyProducts();
+            if (page === 'cart') loadCart();
+            if (page === 'orders') loadOrders();
+            if (page === 'favorites') loadFavorites();
+            if (page === 'complaints') loadComplaints();
+            if (page === 'seller') showSellerTab('orders');
+            if (page === 'admin') showAdminTab('products');
+        }
+
+        function checkLogin() {
+            api('GET', '/auth/user')
+                .done(function(res) {
+                    currentUser = res.user;
+                    updateAuthView();
+                    loadCartCount();
+                })
+                .fail(function() {
+                    currentUser = null;
+                    updateAuthView();
+                });
+        }
+
+        function updateAuthView() {
+            $('.auth-only').toggle(!!currentUser);
+            $('.guest-only').toggle(!currentUser);
+            $('.admin-only').toggle(!!currentUser && !!currentUser.is_admin);
+            if (currentUser) {
+                $('#balanceAmount').text(Number(currentUser.balance).toFixed(2));
+                $('#balanceUnit').text(t('currency.unit'));
+                $('#marketUserState').text(currentUser.is_admin ? t('role.admin') : currentUser.username);
+            } else {
+                $('#cartCount').text('0');
+                $('#balanceUnit').text(t('currency.unit'));
+                $('#marketUserState').text(t('role.guest'));
+            }
+        }
+
+        function loadCategories() {
+            api('GET', '/categories').done(function(res) {
+                const selectedFilter = $('#categoryFilter').val();
+                const selectedProductCategory = $('#productCategory').val();
+                let filterOptions = `<option value="">${escapeHtml(t('filter.allCategories'))}</option>`;
+                let publishOptions = `<option value="">${escapeHtml(t('form.selectCategory'))}</option>`;
+                res.categories.forEach(function(c) {
+                    const option = `<option value="${c.category_id}">${escapeHtml(displayCategoryName(c.category_name))}</option>`;
+                    filterOptions += option;
+                    publishOptions += option;
+                });
+                $('#categoryFilter').html(filterOptions).val(selectedFilter);
+                $('#productCategory').html(publishOptions).val(selectedProductCategory);
+                $('#marketCategoryCount').text(res.categories.length);
+            }).fail(function() {
+                showAlert('danger', t('msg.categoryLoadFailed'));
+            });
+        }
+
+        function resetSearch() {
+            $('#searchInput').val('');
+            $('#categoryFilter').val('');
+            loadProducts();
+        }
+
+        function searchProducts(event) {
+            event.preventDefault();
+            loadProducts();
+        }
+
+        function loadProducts() {
+            const params = $.param({
+                category_id: $('#categoryFilter').val(),
+                search: $('#searchInput').val()
+            });
+            api('GET', '/products?' + params).done(function(res) {
+                renderProducts(res.products || []);
+            }).fail(function() {
+                $('#productsGrid').html(`<div class="col-12">${emptyState(t('empty.productsLoadFailed'), 'bi-database-x')}</div>`);
+            });
+        }
+
+        function renderProducts(products) {
+            $('#marketProductCount').text(products.length);
+            if (!products.length) {
+                $('#productsGrid').html(`<div class="col-12">${emptyState(t('empty.noProducts'), 'bi-basket')}</div>`);
+                refreshReveal();
+                return;
+            }
+            const html = products.map(productCard).join('');
+            $('#productsGrid').html(html);
+            refreshReveal();
+        }
+
+        function productCard(p) {
+            return `
+                <div class="col">
+                    <article class="product-card">
+                        <img class="product-img" src="${imageFor(p)}" alt="${escapeHtml(p.product_name)}">
+                        <div class="p-3">
+                            <div class="d-flex justify-content-between gap-2 align-items-start">
+                                <h2 class="h5 mb-1">${escapeHtml(p.product_name)}</h2>
+                                ${badge(p.product_status)}
+                            </div>
+                            <p class="muted small mb-2">${escapeHtml(displayCategoryName(p.category_name))} · ${escapeHtml(p.origin || t('common.unknownOrigin'))}</p>
+                            <p class="price h5 mb-2">${money(p.price)}</p>
+                            <p class="small muted mb-3"><i class="bi bi-calendar-week"></i> ${dateRange(p.sales_period_start, p.sales_period_end)}</p>
+                            <p class="small text-truncate mb-3">${escapeHtml(p.product_description || t('common.noDescription'))}</p>
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <small class="muted"><i class="bi bi-person"></i> ${escapeHtml(p.publisher_name)}</small>
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="showProductDetail(${p.product_id})" title="${escapeHtml(t('action.detail'))}"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="addToFavorite(${p.product_id})" title="${escapeHtml(t('action.favorite'))}"><i class="bi bi-heart"></i></button>
+                                    <button class="btn btn-primary btn-sm" onclick="addToCart(${p.product_id})" title="${escapeHtml(t('action.addToCart'))}"><i class="bi bi-cart-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            `;
+        }
+
+        function showProductDetail(productId) {
+            currentProductId = productId;
+            api('GET', '/products/' + productId).done(function(res) {
+                const p = res.product;
+                $('#productModalTitle').text(p.product_name);
+                $('#productModalBody').html(`
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <img class="product-img rounded" src="${imageFor(p)}" alt="${escapeHtml(p.product_name)}">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2">${badge(p.product_status)} ${badge(p.category_name)}</p>
+                            <h2 class="h4">${escapeHtml(p.product_name)}</h2>
+                            <p class="price h4">${money(p.price)}</p>
+                            <p><strong>${t('label.origin')}</strong>${escapeHtml(p.origin || t('common.unknown'))}</p>
+                            <p><strong>${t('label.publisher')}</strong>${escapeHtml(p.publisher_name)}</p>
+                            <p><strong>${t('label.salesPeriod')}</strong>${dateRange(p.sales_period_start, p.sales_period_end)}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3 class="h6">${t('form.description')}</h3>
+                    <p class="mb-0">${escapeHtml(p.product_description || t('common.noDescription'))}</p>
+                `);
+                new bootstrap.Modal('#productModal').show();
+            });
+        }
+
+        function login(event) {
+            event.preventDefault();
+            api('POST', '/auth/login', {
+                username: $('#loginUsername').val(),
+                password: $('#loginPassword').val()
+            }).done(function(res) {
+                currentUser = res.user;
+                updateAuthView();
+                loadCartCount();
+                closeModal('#loginModal');
+                $('#loginUsername, #loginPassword').val('');
+                showAlert('success', t('msg.loginSuccess'));
+                loadProducts();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.loginFailed'));
+            });
+        }
+
+        function register(event) {
+            event.preventDefault();
+            api('POST', '/auth/register', {
+                username: $('#regUsername').val(),
+                password: $('#regPassword').val(),
+                email: $('#regEmail').val(),
+                phone: $('#regPhone').val()
+            }).done(function() {
+                closeModal('#registerModal');
+                $('#regUsername, #regPassword, #regEmail, #regPhone').val('');
+                showAlert('success', t('msg.registerSuccess'));
+                showLoginModal();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.registerFailed'));
+            });
+        }
+
+        function logout() {
+            api('POST', '/auth/logout').always(function() {
+                currentUser = null;
+                updateAuthView();
+                showPage('home');
+                showAlert('success', t('msg.logoutSuccess'));
+            });
+        }
+
+        function showLoginModal() {
+            new bootstrap.Modal('#loginModal').show();
+        }
+
+        function showRegisterModal() {
+            new bootstrap.Modal('#registerModal').show();
+        }
+
+        function showRechargeModal() {
+            if (!requireLogin()) return;
+            $('#currentBalance').text(money(currentUser.balance));
+            $('#rechargeAmount').val('');
+            new bootstrap.Modal('#rechargeModal').show();
+        }
+
+        function recharge(event) {
+            event.preventDefault();
+            api('POST', '/user/recharge', {
+                amount: Number($('#rechargeAmount').val())
+            }).done(function(res) {
+                currentUser.balance = res.balance;
+                updateAuthView();
+                closeModal('#rechargeModal');
+                showAlert('success', t('msg.rechargeSuccess'));
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.rechargeFailed'));
+            });
+        }
+
+        function publishProduct(event) {
+            event.preventDefault();
+            api('POST', '/products', {
+                name: $('#productName').val(),
+                category_id: Number($('#productCategory').val()),
+                price: Number($('#productPrice').val()),
+                origin: $('#productOrigin').val(),
+                sales_period_start: $('#productStartDate').val(),
+                sales_period_end: $('#productEndDate').val(),
+                description: $('#productDescription').val()
+            }).done(function() {
+                $('#publishForm')[0].reset();
+                showAlert('success', t('msg.publishSuccess'));
+                showPage('my-products');
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.publishFailed'));
+            });
+        }
+
+        function loadMyProducts() {
+            api('GET', '/my/products').done(function(res) {
+                const products = res.products || [];
+                if (!products.length) {
+                    $('#myProductsList').html(emptyState(t('empty.noMyProducts'), 'bi-box-seam'));
+                    return;
+                }
+                const rows = products.map(function(p) {
+                    return `
+                        <tr>
+                            <td>${p.product_id}</td>
+                            <td>${escapeHtml(p.product_name)}</td>
+                            <td>${escapeHtml(displayCategoryName(p.category_name))}</td>
+                            <td>${money(p.price)}</td>
+                            <td>${badge(p.product_status)}</td>
+                            <td>${dateRange(p.sales_period_start, p.sales_period_end)}</td>
+                            <td>
+                                <div class="table-action-group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="showProductDetail(${p.product_id})"><i class="bi bi-eye"></i> ${t('action.view')}</button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteOwnProduct(${p.product_id})"><i class="bi bi-arrow-down-circle"></i> ${t('action.downlist')}</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+                $('#myProductsList').html(`
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead><tr><th>${t('table.id')}</th><th>${t('table.name')}</th><th>${t('table.category')}</th><th>${t('table.price')}</th><th>${t('table.status')}</th><th>${t('table.salesPeriod')}</th><th>${t('table.actions')}</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                `);
+            });
+        }
+
+        function deleteOwnProduct(productId) {
+            if (!confirm(t('confirm.downlistOwn'))) return;
+            api('DELETE', '/products/' + productId).done(function(res) {
+                showAlert('success', apiMessage(res.message, 'msg.productDownlisted'));
+                loadMyProducts();
+                loadProducts();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.deleteFailed'));
+            });
+        }
+
+        function addToCart(productId) {
+            if (!requireLogin()) return;
+            api('POST', '/cart', { product_id: productId, quantity: 1 }).done(function() {
+                showAlert('success', t('msg.addCartSuccess'));
+                loadCartCount();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.addCartFailed'));
+            });
+        }
+
+        function loadCartCount() {
+            if (!currentUser) return;
+            api('GET', '/cart').done(function(res) {
+                $('#cartCount').text((res.cart_items || []).length);
+            });
+        }
+
+        function loadCart() {
+            api('GET', '/cart').done(function(res) {
+                const items = res.cart_items || [];
+                $('#cartTotal').text(money(res.total));
+                if (!items.length) {
+                    $('#cartItems').html(emptyState(t('empty.cart'), 'bi-cart3'));
+                    return;
+                }
+                $('#cartItems').html(items.map(function(item) {
+                    return `
+                        <div class="data-card p-3 mb-3">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                <div>
+                                    <h2 class="h5 mb-1">${escapeHtml(item.product_name)}</h2>
+                                    <p class="muted small mb-1">${escapeHtml(item.origin || t('common.unknownOrigin'))} · ${badge(item.product_status)}</p>
+                                    <p class="price mb-0">${money(item.price)}</p>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-outline-secondary icon-btn" onclick="updateCartItem(${item.cart_item_id}, ${item.product_quantity - 1})" title="${escapeHtml(t('action.decrease'))}"><i class="bi bi-dash"></i></button>
+                                    <strong style="min-width: 2rem; text-align: center;">${item.product_quantity}</strong>
+                                    <button class="btn btn-outline-secondary icon-btn" onclick="updateCartItem(${item.cart_item_id}, ${item.product_quantity + 1})" title="${escapeHtml(t('action.increase'))}"><i class="bi bi-plus"></i></button>
+                                    <button class="btn btn-outline-danger icon-btn" onclick="removeCartItem(${item.cart_item_id})" title="${escapeHtml(t('action.remove'))}"><i class="bi bi-trash"></i></button>
+                                    <span class="price ms-md-2">${money(item.subtotal)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join(''));
+            });
+        }
+
+        function updateCartItem(itemId, quantity) {
+            if (quantity <= 0) {
+                removeCartItem(itemId);
+                return;
+            }
+            api('PUT', '/cart/' + itemId, { quantity }).done(function() {
+                loadCart();
+                loadCartCount();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.updateFailed'));
+            });
+        }
+
+        function removeCartItem(itemId) {
+            api('DELETE', '/cart/' + itemId).done(function() {
+                loadCart();
+                loadCartCount();
+            });
+        }
+
+        function clearCart() {
+            if (!requireLogin() || !confirm(t('confirm.clearCart'))) return;
+            api('DELETE', '/cart/clear').done(function() {
+                showAlert('success', t('msg.cartCleared'));
+                loadCart();
+                loadCartCount();
+            });
+        }
+
+        function checkout() {
+            if (!requireLogin()) return;
+            api('POST', '/orders/checkout').done(function(res) {
+                currentUser.balance = Number(currentUser.balance) - Number(res.total);
+                updateAuthView();
+                showAlert('success', t('msg.checkoutSuccess'));
+                loadCart();
+                loadCartCount();
+                showPage('orders');
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.checkoutFailed'));
+            });
+        }
+
+        function loadOrders() {
+            api('GET', '/orders').done(function(res) {
+                const orders = res.orders || [];
+                if (!orders.length) {
+                    $('#ordersList').html(emptyState(t('empty.orders'), 'bi-receipt'));
+                    return;
+                }
+                $('#ordersList').html(orders.map(function(order) {
+                    return `
+                        <div class="data-card order-item p-3 mb-3">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                <div>
+                                    <h2 class="h5 mb-1">${t('entity.order')} #${order.order_id}</h2>
+                                    <p class="muted small mb-1">${escapeHtml(order.order_create_time)}</p>
+                                    <p class="price mb-1">${money(order.total_amount)}</p>
+                                    ${badge(order.order_status)}
+                                </div>
+                                <div class="table-action-group">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="showOrderDetail(${order.order_id})"><i class="bi bi-eye"></i> ${t('action.detail')}</button>
+                                    ${['paid', 'shipped'].includes(order.order_status) ? `<button class="btn btn-success btn-sm" onclick="confirmReceive(${order.order_id})"><i class="bi bi-check-circle"></i> ${t('action.confirmReceive')}</button>` : ''}
+                                    ${!['cancelled', 'refunded'].includes(order.order_status) ? `<button class="btn btn-outline-warning btn-sm" onclick="showComplaintModal(${order.order_id})"><i class="bi bi-exclamation-triangle"></i> ${t('action.complain')}</button>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join(''));
+            });
+        }
+
+        function showOrderDetail(orderId) {
+            api('GET', '/orders/' + orderId).done(function(res) {
+                renderOrderModal(res.order);
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.orderLoadFailed'));
+            });
+        }
+
+        function renderOrderModal(order) {
+            const rows = (order.items || []).map(function(item) {
+                return `<tr><td>${escapeHtml(item.product_name)}</td><td>${item.quantity}</td><td>${money(item.price)}</td><td>${money(item.total_price)}</td></tr>`;
+            }).join('');
+            $('#orderModalBody').html(`
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6"><strong>${t('label.orderId')}</strong>${order.order_id}</div>
+                    <div class="col-md-6"><strong>${t('label.status')}</strong>${badge(order.order_status)}</div>
+                    <div class="col-md-6"><strong>${t('label.totalAmount')}</strong><span class="price">${money(order.total_amount)}</span></div>
+                    <div class="col-md-6"><strong>${t('label.createdAt')}</strong>${escapeHtml(order.order_create_time)}</div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead><tr><th>${t('table.product')}</th><th>${t('table.quantity')}</th><th>${t('table.unitPrice')}</th><th>${t('table.subtotal')}</th></tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+            `);
+            new bootstrap.Modal('#orderModal').show();
+        }
+
+        function confirmReceive(orderId) {
+            if (!confirm(t('confirm.receive'))) return;
+            api('POST', '/orders/' + orderId + '/confirm').done(function(res) {
+                currentUser.balance = res.balance;
+                updateAuthView();
+                showAlert('success', t('msg.receiveSuccess'));
+                loadOrders();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.operationFailed'));
+            });
+        }
+
+        function addToFavorite(productId) {
+            if (!requireLogin()) return;
+            api('POST', '/favorites', { product_id: productId }).done(function() {
+                showAlert('success', t('msg.favoriteSuccess'));
+            }).fail(function(xhr) {
+                showAlert('info', apiError(xhr, 'msg.favoriteFailed'));
+            });
+        }
+
+        function loadFavorites() {
+            api('GET', '/favorites').done(function(res) {
+                const favorites = res.favorites || [];
+                if (!favorites.length) {
+                    $('#favoritesList').html(`<div class="col-12">${emptyState(t('empty.favorites'), 'bi-heart')}</div>`);
+                    return;
+                }
+                $('#favoritesList').html(favorites.map(function(fav) {
+                    const p = {
+                        product_name: fav.product_name,
+                        price: fav.price,
+                        origin: fav.origin,
+                        category_name: '地方特产',
+                        product_status: fav.product_status,
+                        publisher_name: t('common.favorited'),
+                        sales_period_start: '',
+                        sales_period_end: '',
+                        product_description: t('common.favoriteTime') + fav.favorite_create_time,
+                        product_id: fav.product_id
+                    };
+                    return `
+                        <div class="col">
+                            <article class="product-card">
+                                <img class="product-img" src="${imageFor(p)}" alt="${escapeHtml(fav.product_name)}">
+                                <div class="p-3">
+                                    <h2 class="h5">${escapeHtml(fav.product_name)}</h2>
+                                    <p class="muted small">${escapeHtml(fav.origin || t('common.unknownOrigin'))}</p>
+                                    <p class="price">${money(fav.price)}</p>
+                                    <p class="small muted">${escapeHtml(fav.favorite_create_time)}</p>
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary btn-sm" onclick="addToCart(${fav.product_id})"><i class="bi bi-cart-plus"></i> ${t('action.addCartShort')}</button>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="removeFavorite(${fav.favorite_id})"><i class="bi bi-heartbreak"></i> ${t('action.unfavorite')}</button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    `;
+                }).join(''));
+            });
+        }
+
+        function removeFavorite(favoriteId) {
+            api('DELETE', '/favorites/' + favoriteId).done(function() {
+                showAlert('success', t('msg.unfavoriteSuccess'));
+                loadFavorites();
+            });
+        }
+
+        function showComplaintModal(orderId) {
+            $('#complaintOrderId').text(orderId);
+            $('#complaintReason').val('');
+            new bootstrap.Modal('#complaintModal').show();
+        }
+
+        function submitComplaint(event) {
+            event.preventDefault();
+            api('POST', '/complaints', {
+                order_id: Number($('#complaintOrderId').text()),
+                type: $('#complaintType').val(),
+                reason: $('#complaintReason').val()
+            }).done(function() {
+                closeModal('#complaintModal');
+                showAlert('success', t('msg.complaintSuccess'));
+                showPage('complaints');
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.submitFailed'));
+            });
+        }
+
+        function loadComplaints() {
+            api('GET', '/complaints').done(function(res) {
+                const complaints = res.complaints || [];
+                if (!complaints.length) {
+                    $('#complaintsList').html(emptyState(t('empty.complaints'), 'bi-exclamation-triangle'));
+                    return;
+                }
+                $('#complaintsList').html(complaints.map(complaintCard).join(''));
+            });
+        }
+
+        function complaintCard(comp, options = {}) {
+            return `
+                <div class="data-card complaint-item p-3 mb-3">
+                    <div class="d-flex flex-wrap justify-content-between gap-2">
+                        <div>
+                            <h2 class="h5 mb-1">${t('entity.complaint')} #${comp.complaint_id}</h2>
+                            <p class="muted small mb-2">${t('entity.order')} #${comp.order_id} · ${badge(comp.type)} ${badge(comp.complaint_status)}</p>
+                        </div>
+                        ${options.actions || ''}
+                    </div>
+                    <p><strong>${t('label.complaintReason')}</strong>${escapeHtml(comp.reason)}</p>
+                    ${comp.seller_reply ? `<p><strong>${t('label.sellerReply')}</strong>${escapeHtml(comp.seller_reply)}</p>` : ''}
+                    ${comp.handle_opinion ? `<p><strong>${t('label.handleOpinion')}</strong>${escapeHtml(comp.handle_opinion)}</p>` : ''}
+                    ${comp.require_refund ? `<p><strong>${t('label.refundAmount')}</strong><span class="price">${money(comp.refund_amount)}</span></p>` : ''}
+                </div>
+            `;
+        }
+
+        function showSellerTab(tab) {
+            $('#sellerOrdersTab, #sellerComplaintsTab').removeClass('active');
+            $('#seller-orders, #seller-complaints').addClass('d-none');
+            if (tab === 'orders') {
+                $('#sellerOrdersTab').addClass('active');
+                $('#seller-orders').removeClass('d-none');
+                loadSellerOrders();
+            } else {
+                $('#sellerComplaintsTab').addClass('active');
+                $('#seller-complaints').removeClass('d-none');
+                loadSellerComplaints();
+            }
+        }
+
+        function loadSellerOrders() {
+            api('GET', '/seller/orders').done(function(res) {
+                const orders = res.orders || [];
+                if (!orders.length) {
+                    $('#seller-orders').html(emptyState(t('empty.sellerOrders'), 'bi-truck'));
+                    return;
+                }
+                $('#seller-orders').html(orders.map(function(order) {
+                    const items = (order.items || []).map(item => `${escapeHtml(item.product_name)} x ${item.quantity}`).join(currentLang === 'en' ? ', ' : '，');
+                    return `
+                        <div class="data-card seller-item p-3 mb-3">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                <div>
+                                    <h2 class="h5 mb-1">${t('entity.order')} #${order.order_id}</h2>
+                                    <p class="muted small mb-1">${t('common.buyer')}${currentLang === 'en' ? ': ' : '：'}${escapeHtml(order.buyer_name)} · ${escapeHtml(order.order_create_time)}</p>
+                                    <p class="mb-1">${items || t('common.noItemDetails')}</p>
+                                    <p class="price mb-1">${money(order.total_amount)}</p>
+                                    ${badge(order.order_status)}
+                                </div>
+                                ${order.order_status === 'paid' ? `<button class="btn btn-success" onclick="shipOrder(${order.order_id})"><i class="bi bi-truck"></i> ${t('action.ship')}</button>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join(''));
+            });
+        }
+
+        function shipOrder(orderId) {
+            if (!confirm(t('confirm.ship'))) return;
+            api('POST', '/seller/orders/' + orderId + '/ship').done(function() {
+                showAlert('success', t('msg.shipSuccess'));
+                loadSellerOrders();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.shipFailed'));
+            });
+        }
+
+        function loadSellerComplaints() {
+            api('GET', '/seller/complaints').done(function(res) {
+                sellerComplaintCache = res.complaints || [];
+                if (!sellerComplaintCache.length) {
+                    $('#seller-complaints').html(emptyState(t('empty.sellerComplaints'), 'bi-chat-left-text'));
+                    return;
+                }
+                $('#seller-complaints').html(sellerComplaintCache.map(function(comp) {
+                    const actions = ['pending', 'seller_replied'].includes(comp.complaint_status)
+                        ? `<button class="btn btn-outline-primary btn-sm" onclick="showSellerReplyModal(${comp.complaint_id})"><i class="bi bi-reply"></i> ${t('action.reply')}</button>`
+                        : '';
+                    return complaintCard(comp, { actions });
+                }).join(''));
+            });
+        }
+
+        function showSellerReplyModal(complaintId) {
+            const comp = sellerComplaintCache.find(item => item.complaint_id === complaintId);
+            if (!comp) return;
+            $('#replyComplaintId').text(complaintId);
+            $('#replyComplaintReason').text(comp.reason);
+            $('#sellerReplyText').val(comp.seller_reply || '');
+            new bootstrap.Modal('#sellerReplyModal').show();
+        }
+
+        function submitSellerReply(event) {
+            event.preventDefault();
+            const complaintId = Number($('#replyComplaintId').text());
+            api('PUT', '/seller/complaints/' + complaintId + '/reply', {
+                reply: $('#sellerReplyText').val()
+            }).done(function() {
+                closeModal('#sellerReplyModal');
+                showAlert('success', t('msg.replySuccess'));
+                loadSellerComplaints();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.replyFailed'));
+            });
+        }
+
+        function showAdminTab(tab) {
+            $('.admin-tab').removeClass('active');
+            $('#admin-products, #admin-complaints, #admin-users').addClass('d-none');
+            if (tab === 'products') {
+                $('.admin-tab').eq(0).addClass('active');
+                $('#admin-products').removeClass('d-none');
+                loadAdminProducts();
+            }
+            if (tab === 'complaints') {
+                $('.admin-tab').eq(1).addClass('active');
+                $('#admin-complaints').removeClass('d-none');
+                loadAdminComplaints();
+            }
+            if (tab === 'users') {
+                $('.admin-tab').eq(2).addClass('active');
+                $('#admin-users').removeClass('d-none');
+                loadAdminUsers();
+            }
+        }
+
+        function loadAdminProducts() {
+            api('GET', '/admin/products').done(function(res) {
+                const products = res.products || [];
+                if (!products.length) {
+                    $('#admin-products').html(emptyState(t('empty.noProducts'), 'bi-box'));
+                    return;
+                }
+                const rows = products.map(function(p) {
+                    return `
+                        <tr>
+                            <td>${p.product_id}</td>
+                            <td>${escapeHtml(p.product_name)}</td>
+                            <td>${escapeHtml(displayCategoryName(p.category_name))}</td>
+                            <td>${money(p.price)}</td>
+                            <td>${badge(p.product_status)}</td>
+                            <td>${escapeHtml(p.publisher_name)}</td>
+                            <td><button class="btn btn-sm btn-outline-danger" onclick="deleteAdminProduct(${p.product_id})"><i class="bi bi-arrow-down-circle"></i> ${t('action.downlist')}</button></td>
+                        </tr>
+                    `;
+                }).join('');
+                $('#admin-products').html(`
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead><tr><th>${t('table.id')}</th><th>${t('table.name')}</th><th>${t('table.category')}</th><th>${t('table.price')}</th><th>${t('table.status')}</th><th>${t('table.publisher')}</th><th>${t('table.actions')}</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                `);
+            });
+        }
+
+        function deleteAdminProduct(productId) {
+            if (!confirm(t('confirm.downlistAdmin'))) return;
+            api('DELETE', '/admin/products/' + productId).done(function(res) {
+                showAlert('success', apiMessage(res.message, 'msg.productDownlisted'));
+                loadAdminProducts();
+                loadProducts();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.deleteFailed'));
+            });
+        }
+
+        function loadAdminComplaints() {
+            api('GET', '/complaints').done(function(res) {
+                adminComplaintCache = res.complaints || [];
+                if (!adminComplaintCache.length) {
+                    $('#admin-complaints').html(emptyState(t('empty.complaints'), 'bi-exclamation-circle'));
+                    return;
+                }
+                const rows = adminComplaintCache.map(function(comp) {
+                    return `
+                        <tr>
+                            <td>${comp.complaint_id}</td>
+                            <td>${comp.order_id}</td>
+                            <td>${escapeHtml(comp.username)}</td>
+                            <td>${badge(comp.type)}</td>
+                            <td>${badge(comp.complaint_status)}</td>
+                            <td>${money(comp.total_amount)}</td>
+                            <td><button class="btn btn-sm btn-primary" onclick="showHandleComplaintModal(${comp.complaint_id})"><i class="bi bi-gear"></i> ${t('action.handle')}</button></td>
+                        </tr>
+                    `;
+                }).join('');
+                $('#admin-complaints').html(`
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead><tr><th>${t('table.id')}</th><th>${t('table.order')}</th><th>${t('table.user')}</th><th>${t('table.type')}</th><th>${t('table.status')}</th><th>${t('table.orderAmount')}</th><th>${t('table.actions')}</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                `);
+            });
+        }
+
+        function showHandleComplaintModal(complaintId) {
+            const comp = adminComplaintCache.find(item => item.complaint_id === complaintId);
+            if (!comp) return;
+            $('#handleComplaintId').text(comp.complaint_id);
+            $('#handleComplaintUser').text(comp.username || comp.buyer_name || '-');
+            $('#handleComplaintOrder').text('#' + comp.order_id);
+            $('#handleComplaintReason').text(comp.reason);
+            $('#handleSellerReply').text(comp.seller_reply || t('common.noReply'));
+            $('#handleComplaintAmount').text(money(comp.total_amount));
+            $('#handleOpinion').val(comp.handle_opinion || '');
+            $('#requireRefund').prop('checked', !!comp.require_refund).trigger('change');
+            $('#refundAmount').val(comp.refund_amount || '');
+            new bootstrap.Modal('#handleComplaintModal').show();
+        }
+
+        function handleComplaint(event) {
+            event.preventDefault();
+            const requireRefund = $('#requireRefund').is(':checked');
+            api('PUT', '/complaints/' + Number($('#handleComplaintId').text()), {
+                opinion: $('#handleOpinion').val(),
+                require_refund: requireRefund,
+                refund_amount: requireRefund ? Number($('#refundAmount').val()) : 0
+            }).done(function() {
+                closeModal('#handleComplaintModal');
+                showAlert('success', t('msg.handleSuccess'));
+                loadAdminComplaints();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.handleFailed'));
+            });
+        }
+
+        function loadAdminUsers() {
+            api('GET', '/admin/users').done(function(res) {
+                const users = res.users || [];
+                if (!users.length) {
+                    $('#admin-users').html(emptyState(t('empty.users'), 'bi-people'));
+                    return;
+                }
+                const rows = users.map(function(user) {
+                    return `
+                        <tr>
+                            <td>${user.user_id}</td>
+                            <td>${escapeHtml(user.username)}</td>
+                            <td>${escapeHtml(user.email || '-')}</td>
+                            <td>${escapeHtml(user.phone || '-')}</td>
+                            <td>${user.is_admin ? badge('管理员') : badge('普通用户')}</td>
+                            <td>${user.is_frozen ? badge('已冻结') : badge('正常')}</td>
+                            <td>${money(user.balance)}</td>
+                            <td><button class="btn btn-sm btn-outline-warning" onclick="freezeUser(${user.user_id}, ${!user.is_frozen})"><i class="bi bi-lock"></i> ${user.is_frozen ? t('action.unfreeze') : t('action.freeze')}</button></td>
+                        </tr>
+                    `;
+                }).join('');
+                $('#admin-users').html(`
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead><tr><th>${t('table.id')}</th><th>${t('table.username')}</th><th>${t('table.email')}</th><th>${t('table.phone')}</th><th>${t('table.role')}</th><th>${t('table.status')}</th><th>${t('table.balance')}</th><th>${t('table.actions')}</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                `);
+            });
+        }
+
+        function freezeUser(userId, freeze) {
+            if (!confirm(freeze ? t('confirm.freeze') : t('confirm.unfreeze'))) return;
+            api('POST', '/admin/users/' + userId + '/freeze', { freeze }).done(function() {
+                showAlert('success', freeze ? t('msg.userFrozen') : t('msg.userUnfrozen'));
+                loadAdminUsers();
+            }).fail(function(xhr) {
+                showAlert('danger', apiError(xhr, 'msg.operationFailed'));
+            });
+        }
+    </script>
+</body>
+</html>
