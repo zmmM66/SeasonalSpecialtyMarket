@@ -101,6 +101,7 @@ def register():
     password = optional_text(data.get('password'))
     email = optional_text(data.get('email'))
     phone = optional_text(data.get('phone'))
+    is_admin = to_bool(data.get('is_admin'), False)
     
     if not username or not password:
         return jsonify({'error': '用户名和密码不能为空'}), 400
@@ -114,8 +115,8 @@ def register():
         return jsonify({'error': '用户名已存在'}), 400
     
     cursor.execute(
-        "INSERT INTO User (username, password, is_admin, email, phone, is_frozen, regist_time, balance) VALUES (%s, %s, FALSE, %s, %s, FALSE, NOW(), 0)",
-        (username, password, email, phone)
+        "INSERT INTO User (username, password, is_admin, email, phone, is_frozen, regist_time, balance) VALUES (%s, %s, %s, %s, %s, FALSE, NOW(), 0)",
+        (username, password, is_admin, email, phone)
     )
     conn.commit()
     cursor.close()

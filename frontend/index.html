@@ -910,6 +910,10 @@
                             <label class="form-label">手机号</label>
                             <input type="text" class="form-control" id="regPhone">
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="regIsAdmin">
+                            <label class="form-check-label" for="regIsAdmin">注册为管理员</label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
@@ -1168,6 +1172,7 @@
                 "form.passwordRequired": "密码 *",
                 "form.email": "邮箱",
                 "form.phone": "手机号",
+                "form.registerAsAdmin": "注册为管理员",
                 "form.rechargeAmount": "充值金额",
                 "form.complaintType": "投诉类型",
                 "form.complaintReason": "投诉原因",
@@ -1397,6 +1402,7 @@
                 "form.passwordRequired": "Password *",
                 "form.email": "Email",
                 "form.phone": "Phone",
+                "form.registerAsAdmin": "Register as Administrator",
                 "form.rechargeAmount": "Top-up Amount",
                 "form.complaintType": "Complaint Type",
                 "form.complaintReason": "Complaint Reason",
@@ -1558,7 +1564,7 @@
             "seller.shipManagement", "seller.complaintReply", "admin.products", "admin.complaints",
             "admin.users", "form.productName", "form.productCategory", "form.price", "form.origin",
             "form.salesStart", "form.salesEnd", "form.description", "form.username", "form.usernameRequired",
-            "form.password", "form.passwordRequired", "form.email", "form.phone", "form.rechargeAmount",
+            "form.password", "form.passwordRequired", "form.email", "form.phone", "form.registerAsAdmin", "form.rechargeAmount",
             "form.complaintType", "form.complaintReason", "form.replyContent", "form.handleOpinion",
             "form.requireRefund", "form.refundAmount", "modal.login", "modal.register", "modal.recharge",
             "modal.productDetail", "modal.orderDetail", "modal.complainOrder", "modal.replyComplaint",
@@ -2106,10 +2112,12 @@
                 username: $('#regUsername').val(),
                 password: $('#regPassword').val(),
                 email: $('#regEmail').val(),
-                phone: $('#regPhone').val()
+                phone: $('#regPhone').val(),
+                is_admin: $('#regIsAdmin').is(':checked')
             }).done(function() {
                 closeModal('#registerModal');
                 $('#regUsername, #regPassword, #regEmail, #regPhone').val('');
+                $('#regIsAdmin').prop('checked', false);
                 showAlert('success', t('msg.registerSuccess'));
                 showLoginModal();
             }).fail(function(xhr) {
