@@ -186,3 +186,12 @@ BEGIN
 END //
 
 DELIMITER ;
+
+INSERT INTO Category (category_name, category_description) VALUES 
+('时令水果', '当季新鲜水果'),
+('特色蔬菜', '地方特色蔬菜'),
+('海鲜水产', '新鲜海鲜产品'),
+('地方特产', '各地特色产品'),
+('生鲜肉类', '新鲜肉类产品')
+ON DUPLICATE KEY UPDATE
+    category_description = VALUES(category_description);

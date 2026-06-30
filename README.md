@@ -105,7 +105,7 @@ This project reads the following environment variables:
 python init_db.py
 ```
 
-The SQL script creates the schema, tables, constraints, view, index, trigger, and stored procedures. It does not insert default test data.
+The SQL script creates the schema, tables, constraints, view, index, trigger, and stored procedures. It inserts only default product categories and does not insert default users or products.
 
 6. Start the backend server.
 
